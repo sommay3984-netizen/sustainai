@@ -1,27 +1,25 @@
-# SustainAI production domain
+# Subdomain-only configuration
 
-The app is live at https://sustainai.sommay3984.workers.dev.
-Cloudflare has a production custom-domain binding for `eco.srbros.in`.
-The `srbros.in` DNS zone is pending activation until the domain owner updates
-the authoritative nameservers at Hostinger.
+The app remains hosted at https://sustainai.sommay3984.workers.dev.
+A Cloudflare Pages entry point forwards the complete app, including account
+sessions and saved goals, to this Worker.
 
-Before switching nameservers, compare the imported DNS records in Cloudflare
-against the complete Hostinger DNS zone and copy any missing custom records.
-The scanner found 15 existing records, including the main website, FTP,
-Hostinger mail MX, DKIM, SPF and DMARC. These imported records are DNS-only.
-The scanner cannot guarantee that every existing subdomain was discovered.
+Keep the existing Hostinger nameservers for srbros.in. Do NOT use the earlier
+Cloudflare nameserver instructions. The pending root-domain zone is unused.
 
-In Hostinger's domain management for `srbros.in`, replace the current
-`orbit.dns-parking.com` and `horizon.dns-parking.com` nameservers with:
+In Hostinger DNS, change only the eco hostname:
 
-- `kobe.ns.cloudflare.com`
-- `meadow.ns.cloudflare.com`
+| Type | Name | Target |
+| --- | --- | --- |
+| CNAME | eco | eco-sustainai-srbros.pages.dev |
 
-This moves authoritative DNS for the entire `srbros.in` domain to Cloudflare;
-the registration and existing website hosting remain at Hostinger. Make this
-change only after checking the imported records. The `eco` custom domain is
-managed by Cloudflare Workers; do not create a CNAME to the workers.dev URL.
+Remove conflicting A/AAAA/CNAME records for eco only when adding this CNAME.
+Keep all root, www, mail and other subdomain records unchanged.
 
-After Cloudflare reports the zone active and its HTTPS certificate is ready,
-verify https://eco.srbros.in, including sign-in and saved goal updates.
-Username/password sign-in remains the configured authentication method.
+Cloudflare Pages must have eco.srbros.in added under Custom domains before the
+CNAME will work. Once DNS validates, Cloudflare provisions HTTPS. Verify login,
+logout, map navigation and saved goal updates at https://eco.srbros.in.
+
+The Pages upload package is built from pages-domain/_worker.js and index.html.
+Future app updates deploy to the original Worker from GitHub and automatically
+appear through the Pages entry point. Redeploy Pages only if its proxy changes.
