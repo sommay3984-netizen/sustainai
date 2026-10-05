@@ -2,7 +2,7 @@
 
 Location-aware sustainability app with ten pages, worldwide Photon/OSM search, interactive OpenStreetMap, Open-Meteo weather, CAMS global air quality, provider forecasts, transparent simulations, persistent action plans and goal progress history.
 
-Production uses Sites/ChatGPT sign-in. D1 records are scoped to platform-authenticated account identity. Cross-origin writes and updates to missing or foreign records are rejected. Local preview uses the starter's simulated loopback account; this is excluded from production.
+Production runs on Cloudflare Workers with D1. SustainAI accounts use salted PBKDF2 password hashes and opaque server-side sessions in secure HTTP-only cookies. Records are scoped to the signed-in account. Cross-origin writes and changes to foreign records are rejected. Account recovery is not yet available.
 
 No city is preset. Weather and air quality are labeled as model outputs, never live sensors. Data Sources exposes sources, retrieval time, modeled time, geographic resolution and missing evidence. Local water, grid, traffic and biodiversity metrics remain unavailable without user evidence. The score is an illustrative air-quality proxy, not a comprehensive sustainability rating. Simulations use user-entered usage and emission factors, and explicitly state formulas and limitations.
 

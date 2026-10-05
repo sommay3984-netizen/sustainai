@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS auth_users (id TEXT PRIMARY KEY NOT NULL, username TEXT UNIQUE NOT NULL, salt TEXT NOT NULL, password_hash TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS auth_sessions (token_hash TEXT PRIMARY KEY NOT NULL, user_id TEXT NOT NULL REFERENCES auth_users(id), expires INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS auth_sessions_expires ON auth_sessions(expires);
+CREATE TABLE IF NOT EXISTS auth_limits (key TEXT PRIMARY KEY NOT NULL, count INTEGER NOT NULL, reset INTEGER NOT NULL);

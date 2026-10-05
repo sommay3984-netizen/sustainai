@@ -4,6 +4,9 @@ import type { ConnectorBinding } from "../lib/connector-contract.mjs";
 
 export default {
   fetch(request: Request, env: Cloudflare.Env, ctx: ExecutionContext<{ CONNECTORS?: ConnectorBinding }>) {
+    const cleanHeaders = new Headers(request.headers);
+    for (const name of [...cleanHeaders.keys()]) if (name.startsWith('oai-authenticated-user-')) cleanHeaders.delete(name);
+    request = new Request(request, { headers: cleanHeaders });
     let binding = ctx.props?.CONNECTORS;
     // Local preview emulates the same request-scoped capability. This branch and
     // the auxiliary service binding are absent from production builds.

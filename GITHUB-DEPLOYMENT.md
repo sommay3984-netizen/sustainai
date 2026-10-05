@@ -1,7 +1,8 @@
-# GitHub publication
+# Cloudflare deployment from GitHub
 
-The included GitHub Actions workflow checks TypeScript and builds the Cloudflare Worker. It does not deploy a website.
+Build command: `pnpm build`
+Deploy command: `pnpm exec wrangler deploy --config dist/server/wrangler.json`
+Production branch: `main`
+Preview builds: disabled (previews must not share production database).
 
-This app cannot run on GitHub Pages: it requires server routes, Cloudflare D1, and authenticated user identity. The current identity implementation trusts headers injected by Sites hosting; deploying directly to an ordinary Worker requires replacing that integration with verified authentication, stripping any incoming identity headers, and configuring the sign-in routes. Do not publish an ordinary Worker with the existing identity headers trusted.
-
-For the full application, either retain Sites hosting or finish the authentication adaptation and connect a Cloudflare hosting account with a D1 database. Apply the included drizzle migration before using persistent records. Configure Gemini only as a server-side secret. No local credentials are included in this source archive.
+The Vite configuration names the Worker `sustainai` and binds `DB` to the provisioned `sustainai-db` D1 database. The database schema is in `drizzle/`. Authentication uses SustainAI accounts and secure HTTP-only session cookies, with incoming Sites identity headers stripped. Set GEMINI_API_KEY through Cloudflare's server-side secrets when the provider project has access. No credentials are committed.

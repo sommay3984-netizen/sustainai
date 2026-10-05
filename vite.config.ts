@@ -15,14 +15,17 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 const managedLinux = readExecutionProfile() === "managed-linux";
 
 const localBindingConfig = {
+  name: "sustainai",
   main: "./build/sites-worker.ts",
+  compatibility_date: "2026-05-15",
   compatibility_flags: ["nodejs_compat"],
   d1_databases: d1
     ? [
         {
           binding: d1,
-          database_name: "site-creator-d1",
-          database_id: SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
+          database_name: "sustainai-db",
+          database_id: "50012201-ce38-49ea-abd0-978d0976a0a7",
+          migrations_dir: "./drizzle",
         },
       ]
     : [],
@@ -98,3 +101,4 @@ export default defineConfig(async ({ command }) => {
     ],
   };
 });
+
