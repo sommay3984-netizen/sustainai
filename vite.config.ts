@@ -19,6 +19,8 @@ const localBindingConfig = {
   main: "./build/sites-worker.ts",
   compatibility_date: "2026-05-15",
   compatibility_flags: ["nodejs_compat"],
+  workers_dev: true,
+  routes: [{ pattern: "eco.srbros.in", custom_domain: true }],
   d1_databases: d1
     ? [
         {
